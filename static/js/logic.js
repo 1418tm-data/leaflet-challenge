@@ -1,8 +1,5 @@
 // Store our plates JSON inside platesUrl
 var platesUrl = "/static/data/PB2002_plates.json";
-
-// Perform a GET request to the query URL
-
 // Store our earthquake JSON inside earthquakeUrl
 var earthquakeUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 
@@ -30,7 +27,6 @@ function getColor(mag){
 }
 
 function createFeatures(earthquakeData) {
-
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
   function onEachFeature(feature, layer) {
@@ -56,17 +52,15 @@ function createFeatures(earthquakeData) {
         }        
     }
   });
-
+// Perform a GET request to the query URL
   d3.json(platesUrl, function(plates) {
     // Once we get a response, send the plates.features object to the createPlatesFeatures function
     createPlatesFeatures(plates.features);
   });
   
-  function createPlatesFeatures(platesData) {  
-    
+  function createPlatesFeatures(platesData) {      
       var plates = L.geoJSON(platesData, {
-        //   onEachPlatesFeature: onEachPlatesFeature,
-          style: function(feature) {
+        style: function(feature) {
               return{
                   fillColor:"white",
                   fillOpacity:0,                
@@ -82,7 +76,6 @@ function createFeatures(earthquakeData) {
 }
 
 function createMap(plates, earthquakes) {
-
   // Define Satellite, Outdoors and Grayscale layers
    var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
@@ -121,16 +114,14 @@ function createMap(plates, earthquakes) {
     "Fault Lines": plates
   };
 
-  // Create our map, giving it the streetmap and earthquakes layers to display on load
+  // Create our map, giving it the satellite and earthquakes & plates layers to display on load
   var myMap = L.map("map", {
-    center: [
-      39.32, -111.09
-    ],
+    center: [39.32, -111.09],
     zoom: 3,
     layers: [satellite, earthquakes, plates]
   });
 
-
+  // Create our map Legend
   var legend = L.control({position: 'bottomright'});
   legend.onAdd = function (map) {  
       var div = L.DomUtil.create('div', 'info legend'),
