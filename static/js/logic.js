@@ -71,7 +71,7 @@ function createFeatures(earthquakeData) {
         });        
   
   // Sending our layers to the createMap function
-  createMap(plates, earthquakes);
+  createMap(earthquakes, plates);
    }
 }
 
@@ -110,14 +110,14 @@ function createMap(plates, earthquakes) {
 
   // Create overlay object to hold our overlay layer
   var overlayMaps = {
-    Earthquakes: earthquakes,
-    "Fault Lines": plates
+    "Fault Lines": plates,
+    Earthquakes: earthquakes    
   };
 
   // Create our map, giving it the satellite and earthquakes & plates layers to display on load
   var myMap = L.map("map", {
-    center: [39.32, -111.09],
-    zoom: 3,
+    center: [4.75, -11.22], 
+    zoom: 2,
     layers: [satellite, earthquakes, plates]
   });
 
